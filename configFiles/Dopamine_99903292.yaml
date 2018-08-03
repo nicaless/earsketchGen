@@ -1,0 +1,80 @@
+additionalImports: []
+beatStrings:
+  dopaBeat: 0+++0+0+0+++0+0+
+  hrBeat: 0+++0+++0+++0+++
+buildBeatTracks:
+- beat: dopaBeat
+  duration: ''' '''
+  measures: dopaOn
+  sounds: dopaSound
+  start: ''' '''
+  track: 2
+- beat: hrBeat
+  duration: len(hrMeans)+1
+  measures: None
+  sounds: hrSound
+  start: 1
+  track: 1
+customFunctions: []
+data:
+  dopaMax: '[0, 0, 2.5, 2.5, 0, 0, 0, 12.5, 12.5, 12.5, 10.0, 8.0, 5.0, 5.0, 5.0,
+    2.5, 2.5]'
+  dopaMeans: '[0, 0, 1.25, 1.25, 0, 0, 0, 11.88, 10.63, 12.0, 10.0, 6.5, 5.0, 5.0,
+    3.75, 2.5, 2.5]'
+  dopaOn: '[0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]'
+  dopaStds: '[0, 0, 1.25, 1.25, 0, 0, 0, 1.08, 1.08, 1.0, 0.0, 1.12, 0.0, 0.0, 1.25,
+    0.0, 0.0]'
+  hrMeans: '[172.83, 181.25, 152.86, 161.6, 160.0, 164.67, 168.29, 153.8, 157.4, 139.17,
+    133.33, 137.75, 120.0, 118.0, 108.71, 100.4, 113.0]'
+  hrStds: '[7.2, 3.53, 12.69, 2.15, 0.0, 5.79, 9.41, 5.04, 10.93, 9.69, 21.25, 12.32,
+    20.0, 22.79, 16.67, 8.52, 8.75]'
+defaultTempo: 120
+effects:
+- effectEndLocation: None
+  effectEndValue: None
+  effectParam: GAIN
+  effectStartLocation: None
+  effectStartValue: -12
+  effectType: VOLUME
+  func: setEffect
+  track: 2
+- effectParam: DISTO_GAIN
+  effectThresh: 35
+  effectType: DISTORTION
+  func: createEffectWithVals
+  track: 2
+  vals: dopaMax
+- effectMax: 12
+  effectMin: -12
+  effectParam: PITCHSHIFT_SHIFT
+  effectType: PITCHSHIFT
+  func: createEffectWithGauss
+  means: dopaMeans
+  st_devs: dopaStds
+  track: 2
+- effectMax: 12
+  effectMin: -12
+  effectParam: PITCHSHIFT_SHIFT
+  effectType: PITCHSHIFT
+  func: createEffectWithGauss
+  means: hrMeans
+  st_devs: hrStds
+  track: 1
+filename: outputs/Dopamine_99903292.py
+functions:
+- getMean
+- buildBeatTrack
+- createEffectWithVals
+- createEffectWithGauss
+meta:
+  author: Nicole Fronda
+  description: Sonification of Heart Rate on Dopamine for Random Patient 99903292
+  script_name: Dopamine_99903292
+sounds:
+  dopaSound: HOUSE_DEEP_CRYSTALCHORD_001
+  hrSound: OS_LOWTOM03
+template: defaultTemplate.py
+tempo:
+  round:
+  - getMean: hrMeans
+  - 0

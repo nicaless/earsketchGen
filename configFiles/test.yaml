@@ -1,0 +1,99 @@
+template: 'defaultTemplate.py'
+
+meta: {
+  script_name: test,
+  author: test,
+  description: this is a test
+}
+
+filename: test.py
+defaultTempo: 120
+
+functions: [getMean, buildBeatTrack, createEffectWithVals, createEffectWithGauss]
+
+additionalImports: [] # additional scripts that only apply to specific types of data or compositions
+customFunctions: []  # funcs that only apply to specific types of data or compositions
+
+data: {
+  hrMeans: [172.83, 181.25, 152.86, 161.6, 160.0, 164.67, 168.29, 153.8, 157.4, 139.17, 133.33, 137.75, 120.0, 118.0, 108.71, 100.4, 113.0],
+  hrStds: [7.2, 3.53, 12.69, 2.15, 0.0, 5.79, 9.41, 5.04, 10.93, 9.69, 21.25, 12.32, 20.0, 22.79, 16.67, 8.52, 8.75],
+  dopaOn: [0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  dopaMeans: [0, 0, 1.25, 1.25, 0, 0, 0, 11.88, 10.63, 12.0, 10.0, 6.5, 5.0, 5.0, 3.75, 2.5, 2.5],
+  dopaStds: [0, 0, 1.25, 1.25, 0, 0, 0, 1.08, 1.08, 1.0, 0.0, 1.12, 0.0, 0.0, 1.25, 0.0, 0.0],
+  dopaMax: [0, 0, 2.5, 2.5, 0.0, 0.0, 0.0, 12.5, 12.5, 12.5, 10.0, 8.0, 5.0, 5.0, 5.0, 2.5, 2.5]
+}
+
+# tempo: None
+# tempo: round(getMean(hrMeans), 0)
+tempo: {round: [{getMean: hrMeans}, 0]}
+# tempo: {round': [120.2, 0]}
+
+beatStrings: {
+  hrBeat: 0+++0+++0+++0+++,
+  dopaBeat: 0+++0+0+0+++0+0+
+}
+
+sounds: {
+  hrSound: OS_LOWTOM03,
+  dopaSound: HOUSE_DEEP_CRYSTALCHORD_001
+}
+
+buildBeatTracks: [
+{
+  sounds: dopaSound,
+  track: 2,
+  start: "' '", # better checks for this in function so can leave value blank
+  duration: "' '", # better checks for this in function so can leave value blank
+  beat: dopaBeat,
+  measures: dopaOn
+},
+{
+  sounds: hrSound,
+  track: 1,
+  start: 1,
+  duration: len(hrMeans)+1,  # possibly do this as dict ?
+  beat: hrBeat,
+  measures: None
+}
+]
+
+effects: [
+{
+  func: setEffect,
+  track: 2,
+  effectType: VOLUME,
+  effectParam: GAIN,
+  effectStartValue: -12,
+  effectStartLocation: None,
+  effectEndValue: None,
+  effectEndLocation: None,
+},
+{
+  func: createEffectWithVals,
+  effectType: DISTORTION,
+  effectParam: DISTO_GAIN,
+  effectThresh: 35,
+  vals: dopaMax,
+  track: 2
+},
+{
+  func: createEffectWithGauss,
+  effectType: PITCHSHIFT,
+  effectParam: PITCHSHIFT_SHIFT,
+  effectMin: -12,
+  effectMax: 12,
+  means: dopaMeans,
+  st_devs: dopaStds,
+  track: 2
+},
+{
+  func: createEffectWithGauss,
+  effectType: PITCHSHIFT,
+  effectParam: PITCHSHIFT_SHIFT,
+  effectMin: -12,
+  effectMax: 12,
+  means: hrMeans,
+  st_devs: hrStds,
+  track: 1
+}
+]

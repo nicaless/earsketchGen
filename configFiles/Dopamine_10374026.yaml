@@ -1,0 +1,78 @@
+additionalImports: []
+beatStrings:
+  dopaBeat: 0+++0+0+0+++0+0+
+  hrBeat: 0+++0+++0+++0+++
+buildBeatTracks:
+- beat: dopaBeat
+  duration: ''' '''
+  measures: dopaOn
+  sounds: dopaSound
+  start: ''' '''
+  track: 2
+- beat: hrBeat
+  duration: len(hrMeans)+1
+  measures: None
+  sounds: hrSound
+  start: 1
+  track: 1
+customFunctions: []
+data:
+  dopaMax: '[20.0, 20.0, 20.0, 20.0, 19.0, 17.5, 10.0, 0, 0, 0, 0, 10.0, 10.0, 10.0]'
+  dopaMeans: '[17.5, 20.0, 20.0, 19.5, 19.0, 17.08, 6.67, 0, 0, 0, 0, 10.0, 10.0,
+    10.0]'
+  dopaOn: '[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1]'
+  dopaStds: '[2.5, 0.0, 0.0, 0.5, 0.0, 0.93, 4.71, 0, 0, 0, 0, 0.0, 0.0, 0.0]'
+  hrMeans: '[196.2, 198.67, 203.5, 194.17, 180.0, 158.4, 150.0, 148.75, 149.0, 175.25,
+    160.0, 164.5, 180.75, 174.8]'
+  hrStds: '[8.98, 8.79, 4.03, 3.93, 12.0, 16.48, 2.94, 3.96, 3.0, 8.35, 3.81, 6.18,
+    2.95, 4.79]'
+defaultTempo: 120
+effects:
+- effectEndLocation: None
+  effectEndValue: None
+  effectParam: GAIN
+  effectStartLocation: None
+  effectStartValue: -12
+  effectType: VOLUME
+  func: setEffect
+  track: 2
+- effectParam: DISTO_GAIN
+  effectThresh: 35
+  effectType: DISTORTION
+  func: createEffectWithVals
+  track: 2
+  vals: dopaMax
+- effectMax: 12
+  effectMin: -12
+  effectParam: PITCHSHIFT_SHIFT
+  effectType: PITCHSHIFT
+  func: createEffectWithGauss
+  means: dopaMeans
+  st_devs: dopaStds
+  track: 2
+- effectMax: 12
+  effectMin: -12
+  effectParam: PITCHSHIFT_SHIFT
+  effectType: PITCHSHIFT
+  func: createEffectWithGauss
+  means: hrMeans
+  st_devs: hrStds
+  track: 1
+filename: outputs/Dopamine_10374026.py
+functions:
+- getMean
+- buildBeatTrack
+- createEffectWithVals
+- createEffectWithGauss
+meta:
+  author: Nicole Fronda
+  description: Sonification of Heart Rate on Dopamine for Random Patient 10374026
+  script_name: Dopamine_10374026
+sounds:
+  dopaSound: HOUSE_DEEP_CRYSTALCHORD_001
+  hrSound: OS_LOWTOM03
+template: defaultTemplate.py
+tempo:
+  round:
+  - getMean: hrMeans
+  - 0

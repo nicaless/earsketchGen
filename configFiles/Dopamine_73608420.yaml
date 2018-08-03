@@ -1,0 +1,84 @@
+additionalImports: []
+beatStrings:
+  dopaBeat: 0+++0+0+0+++0+0+
+  hrBeat: 0+++0+++0+++0+++
+buildBeatTracks:
+- beat: dopaBeat
+  duration: ''' '''
+  measures: dopaOn
+  sounds: dopaSound
+  start: ''' '''
+  track: 2
+- beat: hrBeat
+  duration: len(hrMeans)+1
+  measures: None
+  sounds: hrSound
+  start: 1
+  track: 1
+customFunctions: []
+data:
+  dopaMax: '[0, 20.0, 0, 20.0, 17.5, 10.0, 10.0, 12.5, 17.5, 17.5, 20.0, 20.0, 20.0,
+    20.0, 15.0, 15.0, 15.0, 15.0, 13.006799697875977, 13.0, 13.0, 13.0, 13.0, 10.0,
+    10.0, 9.0]'
+  dopaMeans: '[0, 20.0, 0, 20.0, 15.0, 10.0, 10.0, 11.88, 14.38, 17.5, 20.0, 20.0,
+    20.0, 18.33, 15.0, 15.0, 15.0, 13.8, 13.01, 10.4, 13.0, 13.0, 13.0, 10.0, 10.0,
+    8.0]'
+  dopaOn: '[0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1]'
+  dopaStds: '[0, 0.0, 0, 0.0, 1.77, 0.0, 0.0, 1.08, 2.07, 0.0, 0.0, 0.0, 0.0, 1.18,
+    0.0, 0.0, 0.0, 0.98, 0.0, 5.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.93]'
+  hrMeans: '[181.33, 158.5, 179.5, 177.67, 176.67, 169.8, 162.0, 164.2, 167.5, 174.33,
+    186.0, 185.8, 180.57, 170.67, 169.6, 169.5, 162.6, 146.83, 155.89, 158.33, 157.86,
+    165.14, 167.43, 164.0, 167.44, 164.0]'
+  hrStds: '[5.76, 13.5, 2.96, 1.25, 2.05, 4.87, 1.87, 1.6, 0.87, 0.47, 3.74, 1.72,
+    2.87, 5.41, 0.8, 3.15, 3.88, 2.19, 2.18, 2.05, 1.64, 7.1, 1.76, 5.59, 6.17, 1.83]'
+defaultTempo: 120
+effects:
+- effectEndLocation: None
+  effectEndValue: None
+  effectParam: GAIN
+  effectStartLocation: None
+  effectStartValue: -12
+  effectType: VOLUME
+  func: setEffect
+  track: 2
+- effectParam: DISTO_GAIN
+  effectThresh: 35
+  effectType: DISTORTION
+  func: createEffectWithVals
+  track: 2
+  vals: dopaMax
+- effectMax: 12
+  effectMin: -12
+  effectParam: PITCHSHIFT_SHIFT
+  effectType: PITCHSHIFT
+  func: createEffectWithGauss
+  means: dopaMeans
+  st_devs: dopaStds
+  track: 2
+- effectMax: 12
+  effectMin: -12
+  effectParam: PITCHSHIFT_SHIFT
+  effectType: PITCHSHIFT
+  func: createEffectWithGauss
+  means: hrMeans
+  st_devs: hrStds
+  track: 1
+filename: outputs/Dopamine_73608420.py
+functions:
+- getMean
+- buildBeatTrack
+- createEffectWithVals
+- createEffectWithGauss
+meta:
+  author: Nicole Fronda
+  description: Sonification of Heart Rate on Dopamine for Random Patient 73608420
+  script_name: Dopamine_73608420
+sounds:
+  dopaSound: HOUSE_DEEP_CRYSTALCHORD_001
+  hrSound: OS_LOWTOM03
+template: defaultTemplate.py
+tempo:
+  round:
+  - getMean: hrMeans
+  - 0
